@@ -1,3 +1,5 @@
 {
-  "block.moddilities.diamond_generator": "Diamond Generator"
+  "block.moddilities.diamond_generator": "Diamond Generator",
+
+  "itemGroup.moddilities": "Moddilities"
 }
