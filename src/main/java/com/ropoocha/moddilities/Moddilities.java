@@ -3,6 +3,7 @@ package com.ropoocha.moddilities;
 import com.ropoocha.moddilities.registries.RegistryBlock;
 import com.ropoocha.moddilities.registries.RegistryBlockItem;
 import com.ropoocha.moddilities.registries.RegistryItem;
+import com.ropoocha.moddilities.registries.RegistryTileEntities;
 import com.ropoocha.moddilities.setup.ModSetup;
 import net.minecraft.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,5 +26,6 @@ public class Moddilities {
     // Register Deferred Registries
     RegistryBlock.BLOCKS.register(modBus);
     RegistryItem.ITEMS.register(modBus);
+    RegistryTileEntities.TILE_ENTITY_TYPES.register(modBus);
   }
 }
