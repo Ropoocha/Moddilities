@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "moddilities:block/diamond_generator"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+/.gradle
+/build
+
+/run
+
+/out
+/.idea
+
+*.jar
+!/gradle/wrapper/gradle-wrapper.jar
+
+._*
+
+/src/generated/resources/.cache/
