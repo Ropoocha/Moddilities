@@ -4,9 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
-public class DiamondGenerator extends Block {
+public class BlockDiamondGenerator extends Block {
 
-  public DiamondGenerator() {
+  public BlockDiamondGenerator() {
     super(Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(2.0f));
   }
 }

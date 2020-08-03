@@ -1,16 +1,16 @@
 package com.ropoocha.moddilities.registries;
 
 import com.ropoocha.moddilities.Moddilities;
-import com.ropoocha.moddilities.blocks.DiamondGenerator;
+import com.ropoocha.moddilities.blocks.BlockDiamondGenerator;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class BlockRegistry {
-  public static DeferredRegister<Block> BLOCKS =
+public class RegistryBlock {
+  public static final DeferredRegister<Block> BLOCKS =
       DeferredRegister.create(ForgeRegistries.BLOCKS, Moddilities.MODID);
 
-  public static RegistryObject<Block> DIAMOND_GENERATOR_BLOCK =
-      BLOCKS.register("diamond_generator", DiamondGenerator::new);
+  public static final RegistryObject<Block> DIAMOND_GENERATOR_BLOCK =
+      BLOCKS.register("diamond_generator", BlockDiamondGenerator::new);
 }
