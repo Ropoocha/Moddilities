@@ -1,7 +1,27 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "moddilities:block/diamond_generator"
+    },
+    "facing=south": {
+      "model": "moddilities:block/diamond_generator",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "moddilities:block/diamond_generator",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "moddilities:block/diamond_generator",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "moddilities:block/diamond_generator",
+      "x": -90
+    },
+    "facing=down": {
+      "model": "moddilities:block/diamond_generator",
+      "x": 90
     }
   }
 }
