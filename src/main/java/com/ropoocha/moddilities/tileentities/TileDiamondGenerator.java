@@ -12,20 +12,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TileDiamondGenerator extends TileEntity implements ITickableTileEntity {
 
-  private ItemStackHandler handler;
-
-  public TileDiamondGenerator(final TileEntityType<?> type) {
-    super(type);
-  }
+  private final LazyOptional<IItemHandler> handler = LazyOptional.of(this::createHandler);
 
   public TileDiamondGenerator() {
-    this(RegistryTileEntities.DIAMOND_GENERATOR_TILE_ENTITY.get());
+    super(RegistryTileEntities.DIAMOND_GENERATOR_TILE_ENTITY.get());
   }
 
   @Override
@@ -35,35 +33,31 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
   @Override
   public void read(BlockState state, CompoundNBT tag) {
     CompoundNBT invTag = tag.getCompound("inv");
-    getHandler().deserializeNBT(invTag);
+    handler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
     super.read(state, tag);
   }
 
   @Override
   public CompoundNBT write(CompoundNBT tag) {
-    CompoundNBT compound = getHandler().serializeNBT();
-    tag.put("inv", compound);
+    handler.ifPresent(h -> {
+      CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
+      tag.put("inv", compound);
+    });
     return super.write(tag);
   }
 
-  private ItemStackHandler getHandler() {
-    if (handler == null) {
-      handler = new ItemStackHandler(1) {
-        @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-          return stack.getItem() == Items.DIAMOND;
-        }
-      };
-    }
-    return handler;
+  private IItemHandler createHandler() {
+    return new ItemStackHandler(1) {
+      @Override
+      public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+        return stack.getItem() == Items.DIAMOND;
+      }
+    };
   }
 
   @Nonnull
   @Override
   public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-    if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return LazyOptional.of(() -> (T) getHandler());
-    }
-    return super.getCapability(cap, side);
+    return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, handler);
   }
 }
