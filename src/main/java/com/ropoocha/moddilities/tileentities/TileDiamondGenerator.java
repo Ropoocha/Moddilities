@@ -23,7 +23,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -32,9 +31,13 @@ import net.minecraftforge.items.ItemStackHandler;
 public class TileDiamondGenerator extends TileEntity implements ITickableTileEntity,
     INamedContainerProvider {
 
+  // Handlers
+  private ItemStackHandler itemHandler = createItemHandler();
+  private SettableEnergyStorage energyStorage = createEnergyStorage();
+
   // Capabilities
-  private final LazyOptional<IItemHandler> itemHander = LazyOptional.of(this::createItemHandler);
-  private final LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(this::createEnergyHandler);
+  private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
+  private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
   private int counter;
 
@@ -46,25 +49,24 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
 
   @Override
   public void read(BlockState state, CompoundNBT tag) {
-    CompoundNBT invTag = tag.getCompound("inv");
-    itemHander.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
-    energyHandler.ifPresent(h -> ((SettableEnergyStorage) h).setEnergy(invTag.getInt("energy")));
+
+    itemHandler.deserializeNBT(tag.getCompound("inventory"));
+    energyStorage.setEnergy(tag.getInt("energy"));
+
     super.read(state, tag);
   }
 
   @Override
   public CompoundNBT write(CompoundNBT tag) {
-    itemHander.ifPresent(h -> {
-      CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
-      tag.put("inv", compound);
-    });
-    energyHandler.ifPresent(h -> tag.putInt("energy", h.getEnergyStored()));
+    tag.put("inventory", itemHandler.serializeNBT());
+    tag.putInt("energy", energyStorage.getEnergyStored());
+
     return super.write(tag);
   }
 
   // Capabilities suppliers
 
-  private IItemHandler createItemHandler() {
+  private ItemStackHandler createItemHandler() {
     return new ItemStackHandler(1) {
       @Override
       public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
@@ -73,7 +75,7 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
     };
   }
 
-  private IEnergyStorage createEnergyHandler() {
+  private SettableEnergyStorage createEnergyStorage() {
     return new SettableEnergyStorage(2137, 0);
   }
 
@@ -83,10 +85,10 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
   @Override
   public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
     if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return itemHander.cast();
+      return handler.cast();
     }
     if (cap == CapabilityEnergy.ENERGY) {
-      return energyHandler.cast();
+      return energy.cast();
     }
     return super.getCapability(cap, side);
   }
@@ -112,10 +114,10 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
     if (counter > 0) {
       counter--;
       if (counter <= 0) {
-        energyHandler.ifPresent(e -> ((SettableEnergyStorage) e).addEnergy(20));
+        energy.ifPresent(e -> ((SettableEnergyStorage) e).addEnergy(20));
       }
     } else {
-      itemHander.ifPresent(h -> {
+      handler.ifPresent(h -> {
         ItemStack stack = h.getStackInSlot(0);
         if (stack.getItem() == Items.DIAMOND) {
           h.extractItem(0, 1, false);
