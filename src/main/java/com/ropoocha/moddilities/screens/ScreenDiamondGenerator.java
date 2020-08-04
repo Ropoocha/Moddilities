@@ -4,10 +4,12 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.ropoocha.moddilities.Moddilities;
 import com.ropoocha.moddilities.containters.ContainerDiamondGenerator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class ScreenDiamondGenerator extends ContainerScreen<ContainerDiamondGenerator> {
 
@@ -28,6 +30,10 @@ public class ScreenDiamondGenerator extends ContainerScreen<ContainerDiamondGene
     this.func_230459_a_(matrixStack, mouseX, mouseY);
   }
 
+  @Override
+  protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+    drawString(matrixStack, Minecraft.getInstance().fontRenderer, new TranslationTextComponent("gui.diamond_generator.energy").getString() + container.getEnergy(), 10, 10, 0xffffff);
+  }
 
   @Override
   protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x,

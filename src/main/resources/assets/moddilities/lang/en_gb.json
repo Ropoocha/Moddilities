@@ -3,5 +3,7 @@
 
   "item.moddilities.tungsten_pickaxe": "Tungsten Pickaxe",
 
-  "itemGroup.moddilities": "Moddilities"
+  "itemGroup.moddilities": "Moddilities",
+
+  "gui.diamond_generator.energy": "Endergy: "
 }
