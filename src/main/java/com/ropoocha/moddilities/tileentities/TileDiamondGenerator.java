@@ -49,8 +49,7 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
 
   @Override
   public void read(BlockState state, CompoundNBT tag) {
-
-    itemHandler.deserializeNBT(tag.getCompound("inventory"));
+    itemHandler.deserializeNBT(tag.getCompound("inv"));
     energyStorage.setEnergy(tag.getInt("energy"));
 
     super.read(state, tag);
@@ -58,7 +57,7 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
 
   @Override
   public CompoundNBT write(CompoundNBT tag) {
-    tag.put("inventory", itemHandler.serializeNBT());
+    tag.put("inv", itemHandler.serializeNBT());
     tag.putInt("energy", energyStorage.getEnergyStored());
 
     return super.write(tag);

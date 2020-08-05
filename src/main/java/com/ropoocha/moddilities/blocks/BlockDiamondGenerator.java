@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class BlockDiamondGenerator extends Block {
 
   public BlockDiamondGenerator() {
-    super(Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(2.0f));
+    super(Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL));
     this.setDefaultState(
         this.getStateContainer().getBaseState().with(BlockStateProperties.FACING, Direction.SOUTH));
   }
