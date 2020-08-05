@@ -4,6 +4,8 @@ import com.ropoocha.moddilities.containters.ContainerDiamondGenerator;
 import com.ropoocha.moddilities.energy.SettableEnergyStorage;
 import com.ropoocha.moddilities.registries.RegistryBlock;
 import com.ropoocha.moddilities.registries.RegistryTileEntities;
+import com.ropoocha.moddilities.setup.ConfigHolder;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
@@ -20,7 +22,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -32,11 +33,10 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
     INamedContainerProvider {
 
   // Handlers
-  private ItemStackHandler itemHandler = createItemHandler();
-  private SettableEnergyStorage energyStorage = createEnergyStorage();
-
+  private final ItemStackHandler itemHandler = createItemHandler();
   // Capabilities
   private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
+  private final SettableEnergyStorage energyStorage = createEnergyStorage();
   private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
   private int counter;
@@ -67,6 +67,12 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
 
   private ItemStackHandler createItemHandler() {
     return new ItemStackHandler(1) {
+
+      @Override
+      protected void onContentsChanged(int slot) {
+        markDirty();
+      }
+
       @Override
       public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
         return stack.getItem() == Items.DIAMOND;
@@ -75,7 +81,7 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
   }
 
   private SettableEnergyStorage createEnergyStorage() {
-    return new SettableEnergyStorage(2137, 0);
+    return new SettableEnergyStorage(ConfigHolder.COMMON.diamondGeneratorMaxPower.get(), 0);
   }
 
   // ICapabilityProvider method
@@ -113,16 +119,48 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
     if (counter > 0) {
       counter--;
       if (counter <= 0) {
-        energy.ifPresent(e -> ((SettableEnergyStorage) e).addEnergy(20));
+        energy.ifPresent(e -> ((SettableEnergyStorage) e)
+            .addEnergy(ConfigHolder.COMMON.diamondGeneratorGenerate.get()));
       }
+      markDirty();
     } else {
       handler.ifPresent(h -> {
         ItemStack stack = h.getStackInSlot(0);
         if (stack.getItem() == Items.DIAMOND) {
           h.extractItem(0, 1, false);
-          counter = 20;
+          counter = ConfigHolder.COMMON.diamondGeneratorTicks.get();
+          markDirty();
         }
       });
+    }
+
+    sendOutPower();
+  }
+
+  private void sendOutPower() {
+    AtomicInteger capacity = new AtomicInteger(energyStorage.getEnergyStored());
+    if (capacity.get() > 0) {
+      for (Direction direction : Direction.values()) {
+        TileEntity te = world.getTileEntity(pos.offset(direction));
+        if (te != null) {
+          boolean doContinue = te.getCapability(CapabilityEnergy.ENERGY, direction).map(e -> {
+            if (e.canReceive()) {
+              int received = e.receiveEnergy(
+                  Math.min(capacity.get(), ConfigHolder.COMMON.diamondGeneratorSend.get()),
+                  false);
+              capacity.addAndGet(-received);
+              ((SettableEnergyStorage) e).consumeEnergy(received);
+              markDirty();
+              return capacity.get() > 0;
+            } else {
+              return true;
+            }
+          }).orElse(true);
+          if (!doContinue) {
+            return;
+          }
+        }
+      }
     }
   }
 }

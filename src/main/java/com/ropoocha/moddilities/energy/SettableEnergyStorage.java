@@ -18,4 +18,11 @@ public class SettableEnergyStorage extends EnergyStorage {
       this.energy = getMaxEnergyStored();
     }
   }
+
+  public void consumeEnergy(int energy) {
+    this.energy -= energy;
+    if (this.energy < 0) {
+      this.energy = 0;
+    }
+  }
 }
