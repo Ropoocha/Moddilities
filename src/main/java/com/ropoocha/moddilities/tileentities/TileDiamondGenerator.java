@@ -8,6 +8,7 @@ import com.ropoocha.moddilities.setup.ConfigHolder;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,11 +17,13 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.Tags.Blocks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -39,7 +42,8 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
   private final SettableEnergyStorage energyStorage = createEnergyStorage();
   private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
-  private int counter;
+  private int counter = 0;
+  private boolean isLit = false;
 
   public TileDiamondGenerator() {
     super(RegistryTileEntities.DIAMOND_GENERATOR_TILE_ENTITY.get());
@@ -116,22 +120,33 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
 
   @Override
   public void tick() {
+
+    if (this.world.isRemote) {
+      return;
+    }
+
     if (counter > 0) {
-      counter--;
-      if (counter <= 0) {
-        energy.ifPresent(e -> ((SettableEnergyStorage) e)
-            .addEnergy(ConfigHolder.COMMON.diamondGeneratorGenerate.get()));
+      --counter;
+      if (counter == 0) {
+        energyStorage.addEnergy(ConfigHolder.COMMON.diamondGeneratorGenerate.get());
       }
       markDirty();
-    } else {
-      handler.ifPresent(h -> {
-        ItemStack stack = h.getStackInSlot(0);
-        if (stack.getItem() == Items.DIAMOND) {
-          h.extractItem(0, 1, false);
-          counter = ConfigHolder.COMMON.diamondGeneratorTicks.get();
-          markDirty();
-        }
-      });
+    }
+
+    if (counter == 0) {
+      boolean isDiamond = itemHandler.getStackInSlot(0).getItem() == Items.DIAMOND;
+
+      boolean isFull = energyStorage.getEnergyStored() >= energyStorage.getMaxEnergyStored();
+      if (isDiamond && !isFull) {
+        itemHandler.extractItem(0, 1, false);
+        counter += ConfigHolder.COMMON.diamondGeneratorTicks.get();
+        markDirty();
+      }
+    }
+
+    BlockState blockState = world.getBlockState(pos);
+    if (blockState.get(BlockStateProperties.POWERED) != (counter > 0)) {
+      world.setBlockState(pos, blockState.with(BlockStateProperties.POWERED, counter > 0));
     }
 
     sendOutPower();

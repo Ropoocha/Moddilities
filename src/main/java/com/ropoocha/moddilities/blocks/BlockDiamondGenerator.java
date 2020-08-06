@@ -1,13 +1,12 @@
 package com.ropoocha.moddilities.blocks;
 
 import com.ropoocha.moddilities.tileentities.TileDiamondGenerator;
+import java.util.function.ToIntFunction;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -27,14 +26,21 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class BlockDiamondGenerator extends Block {
 
   public BlockDiamondGenerator() {
-    super(Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL));
-    this.setDefaultState(
-        this.getStateContainer().getBaseState().with(BlockStateProperties.FACING, Direction.SOUTH));
+    super(Properties.create(Material.IRON)
+        .setRequiresTool()
+        .hardnessAndResistance(5.0F, 6.0F)
+        .sound(SoundType.METAL)
+        .setLightLevel(b -> b.get(BlockStateProperties.POWERED) ? 14 : 0));
+
+    this.setDefaultState(this.getStateContainer()
+        .getBaseState()
+        .with(BlockStateProperties.FACING, Direction.SOUTH)
+        .with(BlockStateProperties.POWERED, false));
   }
 
   @Override
   protected void fillStateContainer(Builder<Block, BlockState> builder) {
-    builder.add(BlockStateProperties.FACING);
+    builder.add(BlockStateProperties.FACING, BlockStateProperties.POWERED);
   }
 
   @Nullable
@@ -61,9 +67,10 @@ public class BlockDiamondGenerator extends Block {
     if (!worldIn.isRemote) {
       TileEntity tileEntity = worldIn.getTileEntity(pos);
       if (tileEntity instanceof INamedContainerProvider) {
-        NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, tileEntity.getPos());
+        NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity,
+            tileEntity.getPos());
       }
     }
-    return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+    return ActionResultType.SUCCESS;
   }
 }

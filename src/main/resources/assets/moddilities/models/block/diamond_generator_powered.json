@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "moddilities:block/basic",
+    "down": "moddilities:block/basic",
+    "north": "moddilities:block/diamond_generator_powered",
+    "south": "moddilities:block/vent",
+    "west": "moddilities:block/frame",
+    "east": "moddilities:block/frame",
+    "particle": "moddilities:block/basic"
+  }
+}
