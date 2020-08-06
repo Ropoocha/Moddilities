@@ -1,5 +1,6 @@
 package com.ropoocha.moddilities;
 
+import com.ropoocha.moddilities.data.DataGenerators;
 import com.ropoocha.moddilities.registries.RegistryBlock;
 import com.ropoocha.moddilities.registries.RegistryBlockItem;
 import com.ropoocha.moddilities.registries.RegistryContainer;
@@ -28,6 +29,7 @@ public class Moddilities {
     modBus.addListener(ModSetup::setup);
     modBus.addListener(ModSetup::clientSidedSetup);
     modBus.addGenericListener(Item.class, RegistryBlockItem::createBlockItems);
+    modBus.addListener(DataGenerators::gatherData);
 
     // Register Deferred Registries
     RegistryBlock.BLOCKS.register(modBus);
