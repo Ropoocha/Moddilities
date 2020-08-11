@@ -4,6 +4,7 @@ import com.ropoocha.moddilities.data.DataGenerators;
 import com.ropoocha.moddilities.registries.RegistryBlock;
 import com.ropoocha.moddilities.registries.RegistryBlockItem;
 import com.ropoocha.moddilities.registries.RegistryContainer;
+import com.ropoocha.moddilities.registries.RegistryEntity;
 import com.ropoocha.moddilities.registries.RegistryItem;
 import com.ropoocha.moddilities.registries.RegistryTileEntities;
 import com.ropoocha.moddilities.setup.ConfigHolder;
@@ -36,6 +37,7 @@ public class Moddilities {
     RegistryItem.ITEMS.register(modBus);
     RegistryTileEntities.TILE_ENTITY_TYPES.register(modBus);
     RegistryContainer.CONTAINERS.register(modBus);
+    RegistryEntity.ENTITY_TYPES.register(modBus);
 
     // Register Configs
     context.registerConfig(Type.CLIENT, ConfigHolder.CLIENT_SPEC);
