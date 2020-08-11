@@ -6,9 +6,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.World;
 
-public class EntityWeirdMob extends AnimalEntity {
+public class EntityPLFlag extends AnimalEntity {
 
-  public EntityWeirdMob(
+  public EntityPLFlag(
       EntityType<? extends AnimalEntity> type,
       World worldIn) {
     super(type, worldIn);

@@ -1,16 +1,16 @@
 package com.ropoocha.moddilities.model;
 
 import com.google.common.collect.ImmutableList;
-import com.ropoocha.moddilities.entities.EntityWeirdMob;
+import com.ropoocha.moddilities.entities.EntityPLFlag;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class ModelWeirdMob extends SegmentedModel<EntityWeirdMob> {
+public class ModelPLFlag extends SegmentedModel<EntityPLFlag> {
 
   public ModelRenderer stick;
   public ModelRenderer cloth;
 
-  public ModelWeirdMob() {
+  public ModelPLFlag() {
     stick = new ModelRenderer(this).setTextureSize(64, 64).setTextureOffset(0, 0);
     cloth = new ModelRenderer(this).setTextureSize(64, 64).setTextureOffset(8, 0);
 
@@ -22,7 +22,7 @@ public class ModelWeirdMob extends SegmentedModel<EntityWeirdMob> {
   }
 
   @Override
-  public void setRotationAngles(EntityWeirdMob entityIn, float limbSwing, float limbSwingAmount,
+  public void setRotationAngles(EntityPLFlag entityIn, float limbSwing, float limbSwingAmount,
       float ageInTicks, float netHeadYaw, float headPitch) {
 
   }

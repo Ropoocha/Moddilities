@@ -3,7 +3,7 @@ package com.ropoocha.moddilities.setup;
 import com.ropoocha.moddilities.registries.RegistryBlock;
 import com.ropoocha.moddilities.registries.RegistryContainer;
 import com.ropoocha.moddilities.registries.RegistryEntity;
-import com.ropoocha.moddilities.render.RenderWeirdMob;
+import com.ropoocha.moddilities.render.RenderPLFlag;
 import com.ropoocha.moddilities.screens.ScreenDiamondGenerator;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.MobEntity;
@@ -28,7 +28,7 @@ public class ModSetup {
   public static void setup(final FMLCommonSetupEvent event) {
     DeferredWorkQueue.runLater(() -> {
       GlobalEntityTypeAttributes
-          .put(RegistryEntity.WEIRD_MOB_ENTITY.get(), MobEntity.func_233666_p_()
+          .put(RegistryEntity.POLISH_FLAG_ENTITY.get(), MobEntity.func_233666_p_()
               .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
               .createMutableAttribute(Attributes.MAX_HEALTH, 2.0)
               .create());
@@ -36,8 +36,8 @@ public class ModSetup {
   }
 
   public static void clientSidedSetup(FMLClientSetupEvent event) {
-    RenderingRegistry.registerEntityRenderingHandler(RegistryEntity.WEIRD_MOB_ENTITY.get(),
-        RenderWeirdMob::new);
+    RenderingRegistry.registerEntityRenderingHandler(RegistryEntity.POLISH_FLAG_ENTITY.get(),
+        RenderPLFlag::new);
 
     DeferredWorkQueue.runLater(() -> {
       ScreenManager.registerFactory(RegistryContainer.DIAMOND_GENERATOR_CONTAINER.get(),

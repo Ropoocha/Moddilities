@@ -17,10 +17,10 @@ public class RegistryItem {
   public static final RegistryObject<Item> TUNGSTEN_PICKAXE_ITEM =
       ITEMS.register("tungsten_pickaxe", ItemTungstenPickaxe::new);
 
-  public static final RegistryObject<ItemModdedSpawnEgg> WEIRD_MOD_SPAWN_EGG =
-      ITEMS.register("weird_mob_spawn_egg",
+  public static final RegistryObject<ItemModdedSpawnEgg> POLISH_FLAG_SPAWN_EGG =
+      ITEMS.register("polish_flag_spawn_egg",
           () -> new ItemModdedSpawnEgg(
-              RegistryEntity.WEIRD_MOB_ENTITY,
+              RegistryEntity.POLISH_FLAG_ENTITY,
               0xE9E8E7,
               0xD4213D,
               new Item.Properties().group(ModSetup.ITEM_GROUP)));

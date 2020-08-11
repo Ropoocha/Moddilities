@@ -2,11 +2,13 @@
   "block.moddilities.diamond_generator": "Diamond Generator",
 
   "item.moddilities.tungsten_pickaxe": "Tungsten Pickaxe",
-  "item.moddilities.weird_mob_spawn_egg": "Weird Mob Spawn Egg",
+  "item.moddilities.polish_flag_spawn_egg": "Polish Flag Spawn Egg",
 
   "itemGroup.moddilities": "Moddilities",
 
   "gui.diamond_generator.energy": "Endergy: ",
 
-  "tooltip.diamond_generator.left": "Diamonds left: "
+  "tooltip.diamond_generator.left": "Diamonds left: ",
+
+  "entity.moddilities.polish_flag": "Polish Flag"
 }
