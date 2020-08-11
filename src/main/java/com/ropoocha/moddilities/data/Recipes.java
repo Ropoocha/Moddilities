@@ -1,5 +1,6 @@
 package com.ropoocha.moddilities.data;
 
+import com.ropoocha.moddilities.registries.RegistryBlock;
 import java.util.function.Consumer;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Blocks;
@@ -7,7 +8,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.RecipeProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
-import com.ropoocha.moddilities.registries.RegistryBlock;
 import net.minecraftforge.common.Tags;
 
 public class Recipes extends RecipeProvider {

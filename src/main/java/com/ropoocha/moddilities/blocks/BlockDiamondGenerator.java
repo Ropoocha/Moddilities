@@ -1,9 +1,7 @@
 package com.ropoocha.moddilities.blocks;
 
-import com.ropoocha.moddilities.registries.RegistryBlock;
 import com.ropoocha.moddilities.tileentities.TileDiamondGenerator;
 import java.util.List;
-import java.util.function.ToIntFunction;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -25,12 +23,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class BlockDiamondGenerator extends Block {
@@ -98,7 +94,8 @@ public class BlockDiamondGenerator extends Block {
       if (tag.contains("inv")) {
         ItemStackHandler handler = new ItemStackHandler();
         handler.deserializeNBT(tag.getCompound("inv"));
-        tooltip.add(new TranslationTextComponent("tooltip.diamond_generator.left").appendString(String.valueOf(handler.getStackInSlot(0).getCount())));
+        tooltip.add(new TranslationTextComponent("tooltip.diamond_generator.left")
+            .appendString(String.valueOf(handler.getStackInSlot(0).getCount())));
       }
     }
   }

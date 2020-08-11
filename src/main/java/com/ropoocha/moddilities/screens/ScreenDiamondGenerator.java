@@ -32,7 +32,13 @@ public class ScreenDiamondGenerator extends ContainerScreen<ContainerDiamondGene
 
   @Override
   protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-    drawString(matrixStack, Minecraft.getInstance().fontRenderer, new TranslationTextComponent("gui.diamond_generator.energy").getString() + container.getEnergy(), 10, 10, 0xffffff);
+    drawString(matrixStack,
+        Minecraft.getInstance().fontRenderer,
+        new TranslationTextComponent("gui.diamond_generator.energy").getString() +
+            container.getEnergy(),
+        10,
+        10,
+        0xffffff);
   }
 
   @Override

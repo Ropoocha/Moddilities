@@ -12,24 +12,27 @@ public class ConfigHolder {
   public static final Common COMMON;
 
   static {
-    final Pair<Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Client::new);
+    final Pair<Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder()
+        .configure(Client::new);
     CLIENT_SPEC = specPair.getRight();
     CLIENT = specPair.getLeft();
   }
 
-  public static class Client {
-    public Client(ForgeConfigSpec.Builder builder) {
-
-    }
-  }
-
   static {
-    final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+    final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder()
+        .configure(Common::new);
     COMMON_SPEC = specPair.getRight();
     COMMON = specPair.getLeft();
   }
 
+  public static class Client {
+
+    public Client(ForgeConfigSpec.Builder builder) {
+    }
+  }
+
   public static class Common {
+
     public final ForgeConfigSpec.IntValue diamondGeneratorMaxPower;
     public final ForgeConfigSpec.IntValue diamondGeneratorGenerate;
     public final ForgeConfigSpec.IntValue diamondGeneratorSend;
@@ -46,7 +49,8 @@ public class ConfigHolder {
           .defineInRange("power.diamond_generator.generate", 20, 0, Integer.MAX_VALUE);
 
       diamondGeneratorSend = builder
-          .comment("The amount of energy the Diamond Generator can transfer to other blocks per tick.")
+          .comment(
+              "The amount of energy the Diamond Generator can transfer to other blocks per tick.")
           .defineInRange("power.diamond_generator.send", 10, 0, Integer.MAX_VALUE);
 
       diamondGeneratorTicks = builder

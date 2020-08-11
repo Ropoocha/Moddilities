@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 
 public class LootTables extends BaseLootTableProvider {
+
   Block diamondGenerator = RegistryBlock.DIAMOND_GENERATOR_BLOCK.get();
 
   public LootTables(DataGenerator generator) {

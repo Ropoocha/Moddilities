@@ -8,7 +8,6 @@ import com.ropoocha.moddilities.setup.ConfigHolder;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -23,7 +22,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.Tags.Blocks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -41,9 +39,8 @@ public class TileDiamondGenerator extends TileEntity implements ITickableTileEnt
   private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
   private final SettableEnergyStorage energyStorage = createEnergyStorage();
   private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
-
+  private final boolean isLit = false;
   private int counter = 0;
-  private boolean isLit = false;
 
   public TileDiamondGenerator() {
     super(RegistryTileEntities.DIAMOND_GENERATOR_TILE_ENTITY.get());

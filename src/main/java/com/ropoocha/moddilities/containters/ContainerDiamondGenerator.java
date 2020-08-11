@@ -47,13 +47,15 @@ public class ContainerDiamondGenerator extends Container {
 
       @Override
       public void set(int value) {
-        tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(h -> ((SettableEnergyStorage) h).setEnergy(value));
+        tileEntity.getCapability(CapabilityEnergy.ENERGY)
+            .ifPresent(h -> ((SettableEnergyStorage) h).setEnergy(value));
       }
     });
   }
 
   public int getEnergy() {
-    return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+    return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored)
+        .orElse(0);
   }
 
   private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {

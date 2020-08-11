@@ -4,7 +4,6 @@ import com.ropoocha.moddilities.Moddilities;
 import com.ropoocha.moddilities.entities.EntityWeirdMob;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -18,7 +17,7 @@ public class RegistryEntity {
   public static final RegistryObject<EntityType<EntityWeirdMob>> WEIRD_MOB_ENTITY =
       ENTITY_TYPES.register(WEIRD_MOB_NAME,
           () -> EntityType.Builder
-              .<EntityWeirdMob>create(EntityWeirdMob::new, EntityClassification.CREATURE)
+              .create(EntityWeirdMob::new, EntityClassification.CREATURE)
               .size(1, 2)
               .setUpdateInterval(3)
               .setTrackingRange(16)
