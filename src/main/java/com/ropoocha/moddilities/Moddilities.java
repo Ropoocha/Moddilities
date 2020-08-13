@@ -10,7 +10,10 @@ import com.ropoocha.moddilities.registries.RegistryTileEntities;
 import com.ropoocha.moddilities.setup.ConfigHolder;
 import com.ropoocha.moddilities.setup.ModSetup;
 import net.minecraft.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.DistExecutor.SafeCallable;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -31,6 +34,9 @@ public class Moddilities {
     modBus.addListener(ModSetup::clientSidedSetup);
     modBus.addGenericListener(Item.class, RegistryBlockItem::createBlockItems);
     modBus.addListener(DataGenerators::gatherData);
+    modBus.addListener(ModSetup::modelLoaderHandler);
+
+//    DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> modBus.addListener(ModSetup::modelLoaderHandler));
 
     // Register Deferred Registries
     RegistryBlock.BLOCKS.register(modBus);

@@ -2,6 +2,7 @@ package com.ropoocha.moddilities.registries;
 
 import com.ropoocha.moddilities.Moddilities;
 import com.ropoocha.moddilities.tileentities.TileDiamondGenerator;
+import com.ropoocha.moddilities.tileentities.TileMimic;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -17,5 +18,11 @@ public class RegistryTileEntities {
           "diamond_generator",
           () -> TileEntityType.Builder
               .create(TileDiamondGenerator::new, RegistryBlock.DIAMOND_GENERATOR_BLOCK.get())
+              .build(null));
+
+  public static final RegistryObject<TileEntityType<TileMimic>> MIMIC_TILE_ENTITY =
+      TILE_ENTITY_TYPES.register("mimic",
+          () -> TileEntityType.Builder
+              .create(TileMimic::new, RegistryBlock.MIMIC_BLOCK.get())
               .build(null));
 }
