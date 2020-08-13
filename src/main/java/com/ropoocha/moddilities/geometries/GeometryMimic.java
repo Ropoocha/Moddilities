@@ -221,7 +221,7 @@ public class GeometryMimic implements IModelGeometry<GeometryMimic> {
 
     @Override
     public boolean func_230044_c_() {
-      return false;
+      return true ;
     }
 
     @Override

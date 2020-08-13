@@ -45,12 +45,11 @@ public class BlockMimic extends Block {
     double c = 13.0/2.0;
     double r = 19.0/2.0;
 
-    VoxelShape top = Block.makeCuboidShape(c, r, c, r, e, r);
-    VoxelShape bottom = Block.makeCuboidShape(c, c, c, r, s, r);
-    VoxelShape  left = Block.makeCuboidShape(s, c, c, c, r, r);
-    VoxelShape  right = Block.makeCuboidShape(r, c, c, e, r, r);
-    VoxelShape  front = Block.makeCuboidShape(c, c, s, r, r, c);
-    VoxelShape  back = Block.makeCuboidShape(c, c, r, r, r, e);
-    return VoxelShapes.or(top, bottom, left, right, front, back);
+
+    VoxelShape width = Block.makeCuboidShape(s, c, c, e, r, r);
+    VoxelShape height = Block.makeCuboidShape(c, s, c, r, e, r);
+    VoxelShape depth = Block.makeCuboidShape(c, c, s, r, r, e);
+
+    return VoxelShapes.or(width, height, depth);
   }
 }

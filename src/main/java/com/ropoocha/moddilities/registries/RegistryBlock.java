@@ -1,5 +1,6 @@
 package com.ropoocha.moddilities.registries;
 
+import com.mojang.brigadier.Command;
 import com.ropoocha.moddilities.Moddilities;
 import com.ropoocha.moddilities.blocks.BlockDiamondGenerator;
 import com.ropoocha.moddilities.blocks.BlockMimic;
