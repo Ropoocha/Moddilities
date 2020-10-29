@@ -32,7 +32,7 @@ import net.minecraftforge.items.ItemStackHandler;
 public class BlockDiamondGenerator extends Block {
 
   public BlockDiamondGenerator() {
-    super(Properties.create(Material.IRON)
+    super(Properties.create(Material.WOOD)
         .setRequiresTool()
         .hardnessAndResistance(5.0F, 6.0F)
         .sound(SoundType.METAL)
